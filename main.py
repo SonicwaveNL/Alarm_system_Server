@@ -7,6 +7,7 @@ from flask import Flask
 
 # Import functions
 from functions.connection import connected
+from functions.alarm import alarm
 
 # App presets
 app = Flask(__name__)
@@ -26,6 +27,11 @@ def ready():
     return "Client connected to Server\n"
 
     connected(True)
+
+@app.route("/alarm")
+def alarm_status():
+
+    alarm(True)
 
 
 if __name__ == '__main__':
