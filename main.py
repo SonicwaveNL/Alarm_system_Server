@@ -5,6 +5,9 @@
 from gpiozero import *
 from flask import Flask
 
+# Import functions
+from functions.connection import connected
+
 # App presets
 app = Flask(__name__)
 
@@ -22,6 +25,7 @@ def ready():
     print("Client connected to Server")
     return "Client connected to Server\n"
 
+    connected(True)
 
 
 if __name__ == '__main__':
