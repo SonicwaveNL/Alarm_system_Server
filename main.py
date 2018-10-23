@@ -1,14 +1,27 @@
 #!/usr/bin/python3
 
-from gpiozero import LED
+
+# Import libraries
+from gpiozero import *
 from flask import Flask
 
+# App presets
 app = Flask(__name__)
+
+# Input presets
+button_switch = Button(2)
+
+# Ouput presets
+led_Red = LED(3)
+led_Green = LED(17)
+
 
 @app.route("/")
 def ready():
 
-    return "Server beschikbaar\n"
+    print("Client connected to Server")
+    return "Client connected to Server\n"
+
 
 
 if __name__ == '__main__':
