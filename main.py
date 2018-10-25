@@ -3,30 +3,47 @@
 
 # Import libraries
 from gpiozero import *
-from flask import Flask
+from flask import Flask, redirect
+from time import sleep
 
 # Import functions
-from functions.connection import connected
 from functions.alarm import alarm
+from functions.connection import connected, progress
+from system.switch import switch_server
 
 # App presets
 app = Flask(__name__)
 
-# Input presets
-button_switch = Button(2)
-
-# Ouput presets
-led_Red = LED(3)
-led_Green = LED(17)
+server = True
 
 
 @app.route("/")
 def ready():
 
-    print("Client connected to Server")
-    return "Client connected to Server\n"
+    return redirect('/system/off')
 
-    connected(True)
+
+@app.route("/system/off")
+def server_offline():
+
+    global server
+
+    server = False
+    switch_server(False)
+    print("Server is", str(server))
+    return "Server is " + str(server)
+
+
+@app.route("/system/on")
+def server_online():
+
+    global server
+
+    server = True
+    switch_server(True)
+    print("Server is", str(server))
+    return "Server is " + str(server)
+
 
 @app.route("/alarm")
 def alarm_status():
