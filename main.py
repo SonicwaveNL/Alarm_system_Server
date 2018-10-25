@@ -16,11 +16,31 @@ app = Flask(__name__)
 
 server = True
 
+# Server switch
+btn_switch = Button(2)
+
 
 @app.route("/")
 def ready():
 
     return redirect('/system/off')
+
+
+@app.route("/home")
+def home():
+
+    while True:
+
+        global server
+
+        if btn_switch.is_pressed:
+
+            if server:
+                sleep(.5)
+                return redirect('/system/off')
+            else:
+                sleep(.5)
+                return redirect('/system/on')
 
 
 @app.route("/system/off")
@@ -31,7 +51,7 @@ def server_offline():
     server = False
     switch_server(False)
     print("Server is", str(server))
-    return "Server is " + str(server)
+    return redirect('/home')
 
 
 @app.route("/system/on")
@@ -42,7 +62,7 @@ def server_online():
     server = True
     switch_server(True)
     print("Server is", str(server))
-    return "Server is " + str(server)
+    return redirect('/home')
 
 
 @app.route("/alarm")
