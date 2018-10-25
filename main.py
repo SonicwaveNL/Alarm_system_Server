@@ -14,7 +14,9 @@ from system.switch import switch_server
 # App presets
 app = Flask(__name__)
 
+# Main settings
 server = True
+power = False
 
 # Server switch
 btn_switch = Button(2)
@@ -23,7 +25,17 @@ btn_switch = Button(2)
 @app.route("/")
 def ready():
 
-    return redirect('/system/off')
+    global power
+
+    if power is False:
+
+        power = True
+
+        return redirect('/system/off')
+
+    else:
+
+        return redirect('/home')
 
 
 @app.route("/home")
