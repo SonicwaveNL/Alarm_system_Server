@@ -6,7 +6,7 @@ buzzer_Alarm = Buzzer(27)
 
 def alarm(status):
     while status:
-        sleep(1)
+        sleep(0.5)
         buzzer_Alarm.on()
-        sleep(1)
+        sleep(0.5)
         buzzer_Alarm.off()
