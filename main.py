@@ -1,24 +1,21 @@
 #!/usr/bin/python3
 
-
 # Import libraries
+from flask import Flask
 from gpiozero import *
-from flask import Flask, redirect
-from time import sleep
 
 # Import functions
 from functions.alarm import alarm
-from functions.connection import connected, progress
-from system.switch import switch_server
+
+# Import system functions
+from system.switch import server_online, server_offline, status_server
+
 
 # App presets
 app = Flask(__name__)
 
 # Main settings
-server = True
 power = False
-
-# Server switch
 btn_switch = Button(2)
 
 
@@ -28,59 +25,39 @@ def ready():
     global power
 
     if power is False:
-
         power = True
-
-        return redirect('/system/off')
+        server_offline()
+        return "Server is ready"
 
     else:
-
-        return redirect('/home')
-
-
-@app.route("/home")
-def home():
-
-    while True:
-
-        global server
-
-        if btn_switch.is_pressed:
-
-            if server:
-                sleep(.5)
-                return redirect('/system/off')
-            else:
-                sleep(.5)
-                return redirect('/system/on')
+        return "Welcome back"
 
 
-@app.route("/system/off")
-def server_offline():
-
-    global server
-
-    server = False
-    switch_server(False)
-    print("Server is", str(server))
-    return redirect('/home')
+@app.route('/server/off')
+def set_offline():
+    server_offline()
+    return "Server is Offline\n"
 
 
-@app.route("/system/on")
-def server_online():
-
-    global server
-
-    server = True
-    switch_server(True)
-    print("Server is", str(server))
-    return redirect('/home')
+@app.route('/server/on')
+def set_online():
+    server_online()
+    return "Server is Online\n"
 
 
-@app.route("/alarm")
-def alarm_status():
-
+@app.route("/alarm/on")
+def alarm_on():
     alarm(True)
+    return "Server alarm is ON\n"
+
+
+@app.route("/alarm/off")
+def alarm_off():
+    alarm(False)
+    return "Server alarm is OFF\n"
+
+
+# btn_switch.is_pressed = status_server()
 
 
 if __name__ == '__main__':
