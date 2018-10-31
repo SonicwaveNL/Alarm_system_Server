@@ -9,6 +9,7 @@ led_Green = LED(17)
 server = True
 
 
+# Switches the light of the server's hardware
 def switch_server(status):
 
     if status:
@@ -26,6 +27,7 @@ def switch_server(status):
         led_Green.on()
 
 
+# Sets the server to offline
 def server_offline():
 
     global server
@@ -35,6 +37,7 @@ def server_offline():
     return "Server is Offline\n"
 
 
+# Sets the server to online
 def server_online():
 
     global server
@@ -44,6 +47,7 @@ def server_online():
     return "Server is Online\n"
 
 
+# Checks the server status and excute the right function
 def status_server():
 
     global server
